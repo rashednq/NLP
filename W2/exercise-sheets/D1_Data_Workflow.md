@@ -34,15 +34,21 @@ your-project/
 
 ### Task 2: Virtual Environment and Dependencies (15 minutes)
 
-1. Create a virtual environment: `uv init .`
-2. Activate it: `source .venv/bin/activate` (Linux/Mac) or `.venv\Scripts\Activate.ps1` (Windows)
-3. Install dependencies: `uv add pandas pyarrow httpx`
+1. Create a virtual environment (at the project root):
+
+```sh
+uv init .
+uv sync
+```
+
+2. Install dependencies:
+
+```sh
+uv add pandas pyarrow httpx
+```
 
 **References:**
 - [uv documentation](https://docs.astral.sh/uv/)
-- [pandas documentation](https://pandas.pydata.org/docs/)
-- [pyarrow documentation](https://arrow.apache.org/docs/python/)
-- [httpx documentation](https://www.python-httpx.org/)
 
 ### Task 3: Sample Raw Data (2 minutes)
 
@@ -152,50 +158,6 @@ Create `scripts/run_day1_load.py` that:
 - [Python logging module](https://docs.python.org/3/library/logging.html)
 - [pathlib.Path.resolve](https://docs.python.org/3/library/pathlib.html#pathlib.Path.resolve)
 
-## Running the Tests
-
-### Step 1: Make sure you are in the project root directory and activate your virtual environment
-
-```bash
-source .venv/bin/activate  # Linux/Mac
-# or
-.venv\Scripts\Activate.ps1  # Windows PowerShell
-```
-
-### Step 2: Install `pytest` for testing
-
-```bash
-uv add pytest
-```
-
-### Step 3: Run Day 1 Tests
-
-```bash
-# Run all Day 1 tests
-pytest grading_tests/D1/ -v
-
-# Run only structure tests
-pytest grading_tests/D1/test_structure.py -v
-
-# Run only functionality tests
-pytest grading_tests/D1/test_functionality.py -v
-```
-
-### Understanding Test Output
-
-- **PASSED (green)**: Your code is correct! ✅
-- **FAILED (red)**: Read the error message carefully. It tells you what's wrong and often suggests how to fix it.
-- **SKIPPED (yellow)**: Test was skipped (usually because a prerequisite failed)
-
-**Example failure message:**
-```
-FAILED test_read_orders_csv_preserves_string_ids
-AssertionError: order_id should be dtype 'string', got 'object'
-Use dtype={'order_id': 'string'} in pd.read_csv()
-```
-
-This tells you exactly what to fix!
-
 ## Progressive Hints
 
 ### If tests fail for project structure:
@@ -263,12 +225,22 @@ return df.assign(
 ### If your script doesn't run:
 
 **Hint 1:** Make sure you add `src/` to `sys.path` before importing:
+
 ```python
+
+# ORDER IS IMPORTANT
 import sys
 ROOT = Path(__file__).resolve().parents[1]
 SRC = ROOT / "src"
 if str(SRC) not in sys.path:
     sys.path.insert(0, str(SRC))
+
+# Your project imports should be AFTER.
+# Here:
+from data_workflow.config import make_paths
+from data_workflow.io import read_orders_csv
+
+# ...
 ```
 
 **Hint 2:** Run the script from the project root directory, not from inside `scripts/`.
@@ -349,11 +321,10 @@ Before submitting, make sure:
 - [ ] `io.py` has all 4 functions with correct signatures
 - [ ] `transforms.py` has `enforce_schema` function
 - [ ] `scripts/run_day1_load.py` runs without errors
-- [ ] All tests pass: `pytest grading_tests/D1/ -v`
 - [ ] Raw data files exist in `data/raw/`
 - [ ] Script creates `data/processed/orders.parquet`
 
 ## Next Steps
 
-Once all Day 1 tests pass, you're ready for Day 2! Day 2 will add data quality checks and cleaning functions.
+Once all is done, you're ready for Day 2! Day 2 will add data quality checks and cleaning functions.
 

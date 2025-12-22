@@ -108,22 +108,6 @@ Create a script that:
 7. Validates ranges (amount >= 0, quantity >= 0)
 8. Writes `orders_clean.parquet`
 
-## Running the Tests
-
-```bash
-# Activate venv first
-source .venv/bin/activate
-
-# Run all Day 2 tests
-pytest grading_tests/D2/ -v
-
-# Run only structure tests
-pytest grading_tests/D2/test_structure.py -v
-
-# Run only functionality tests
-pytest grading_tests/D2/test_functionality.py -v
-```
-
 ## Progressive Hints
 
 ### If quality checks fail:
@@ -220,5 +204,4 @@ def normalize_text(s: pd.Series) -> pd.Series:
 - [ ] `scripts/run_day2_clean.py` runs without errors
 - [ ] Creates `data/processed/orders_clean.parquet`
 - [ ] Creates `reports/missingness_orders.csv`
-- [ ] All tests pass: `pytest grading_tests/D2/ -v`
 
